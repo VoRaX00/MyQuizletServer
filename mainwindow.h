@@ -8,6 +8,7 @@
 #include <QSqlQueryModel>
 
 #include "Database.h"
+#include "Server.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,15 +28,16 @@ private slots:
 private:
     void setupUsersModel(const QStringList& headers);
     void setupQuizletsModel(const QStringList& headers);
+    void setupTermsModel(const QStringList& headers);
     void createUI();
 
 private:
     Ui::MainWindow *ui;
     Database* db;
+    Server* server;
     QSqlQueryModel* modelUsers;
     QSqlQueryModel* modelQuizlets;
     QSqlQueryModel* modelTerms;
-    QTcpServer* server;
-    QList<QTcpSocket*>sockets;
+
 };
 #endif // MAINWINDOW_H

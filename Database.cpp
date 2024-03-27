@@ -17,6 +17,10 @@ bool Database::createConnection()
         qDebug() << "Error! Can't open database" << db.lastError().text();
         return false;
     }
+
+    createUsersTable();
+    createQuizletsTable();
+    createTermsTable();
     return true;
 }
 
@@ -67,7 +71,7 @@ void Database::closeDataBase()
 bool Database::createUsersTable()
 {
     QStringList tables = db.tables();
-    QString name = "Users";
+    QString name = "users";
 
     if(std::find(tables.begin(), tables.end(), name) != tables.end()){
         qDebug() << "Table Users created";
@@ -76,7 +80,7 @@ bool Database::createUsersTable()
 
     QSqlQuery query;
     QString request = QString("CREATE TABLE %1 ("
-                              "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                              "id SERIAL PRIMARY KEY, "
                               "email TEXT NOT NULL, "
                               "password TEXT NOT NULL );").arg(name);
 
@@ -92,7 +96,7 @@ bool Database::createUsersTable()
 bool Database::createTermsTable()
 {
     QStringList tables = db.tables();
-    QString name = "Terms";
+    QString name = "terms";
 
     if(std::find(tables.begin(), tables.end(), name) != tables.end()){
         qDebug() << "Table Terms created";
@@ -101,10 +105,10 @@ bool Database::createTermsTable()
 
     QSqlQuery query;
     QString request = QString("CREATE TABLE %1 ("
-                              "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                              "id SERIAL PRIMARY KEY, "
                               "term TEXT NOT NULL, "
                               "definition TEXT NOT NULL,"
-                              "id_quizlet INTEGER NOT NULL, );").arg(name);
+                              "id_quizlet INTEGER NOT NULL );").arg(name);
 
     if(!query.exec(request)){
         qWarning() << "Table Terms can't create";
@@ -118,7 +122,7 @@ bool Database::createTermsTable()
 bool Database::createQuizletsTable()
 {
     QStringList tables = db.tables();
-    QString name = "Quizlets";
+    QString name = "quizlets";
 
     if(std::find(tables.begin(), tables.end(), name) != tables.end()){
         qDebug() << "Table Quizlets created";
@@ -127,15 +131,15 @@ bool Database::createQuizletsTable()
 
     QSqlQuery query;
     QString request = QString("CREATE TABLE %1 ("
-                              "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                              "id SERIAL PRIMARY KEY, "
                               "name TEXT NOT NULL, "
-                              "id_user INTEGER NOT NULL, );").arg(name);
+                              "id_user INTEGER NOT NULL );").arg(name);
 
     if(!query.exec(request)){
         qWarning() << "Table Quizlets can't create";
         return false;
     }
 
-    qDebug() << "Tables Quizlets create";
+    qDebug() << "Table Quizlets create";
     return true;
 }

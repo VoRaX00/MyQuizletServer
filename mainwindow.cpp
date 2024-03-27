@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    server = new QTcpServer(this);
+    server = new Server(this);
 
     db = new Database();
     db->createConnection();
@@ -61,7 +61,7 @@ void MainWindow::createUI()
 
     ui->tableViewUsers->resizeColumnsToContents();
     ui->tableViewUsers->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->tableViewUsers->horizontalHeader()->setStretchLastSection(true);
+    ui->tableViewUsers->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     ui->tableViewQuizlets->setModel(modelQuizlets);
     ui->tableViewQuizlets->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -69,7 +69,7 @@ void MainWindow::createUI()
 
     ui->tableViewQuizlets->resizeColumnsToContents();
     ui->tableViewQuizlets->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->tableViewQuizlets->horizontalHeader()->setStretchLastSection(true);
+    ui->tableViewQuizlets->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     ui->tableViewTerms->setModel(modelTerms);
     ui->tableViewTerms->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -77,7 +77,7 @@ void MainWindow::createUI()
 
     ui->tableViewTerms->resizeColumnsToContents();
     ui->tableViewTerms->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->tableViewTerms->horizontalHeader()->setStretchLastSection(true);
+    ui->tableViewTerms->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 MainWindow::~MainWindow()
