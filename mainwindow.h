@@ -5,6 +5,10 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QSqlDatabase>
+#include <QSqlQueryModel>
+
+#include "Database.h"
+#include "Server.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,11 +21,23 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void createConnection();
+    bool createConnection();
+
+private slots:
+
+private:
+    void setupUsersModel(const QStringList& headers);
+    void setupQuizletsModel(const QStringList& headers);
+    void setupTermsModel(const QStringList& headers);
+    void createUI();
 
 private:
     Ui::MainWindow *ui;
-    QTcpServer* server;
-    QList<QTcpSocket*>sockets;
+    Database* db;
+    Server* server;
+    QSqlQueryModel* modelUsers;
+    QSqlQueryModel* modelQuizlets;
+    QSqlQueryModel* modelTerms;
+
 };
 #endif // MAINWINDOW_H
