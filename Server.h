@@ -24,6 +24,10 @@ private:
     void loginUser(const QString& login, const QString& password);
     void registrationUser(const QString& login, const QString& password);
 
+    bool isLogin(const QString& message);
+    bool isRegistration(const QString& message);
+    bool isQuizlet(const QString& message);
+
 private:
     QTcpServer* server;
     QList<QTcpSocket*>sockets;

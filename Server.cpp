@@ -53,13 +53,21 @@ void Server::disconnected(){
 QString Server::getAnswer(QString message)
 {
     //прописать ответы на запросы пользователя
-    QRegularExpression exp("^([A-Za-z0-9_]+)\:([A-Za-z0-9_]+)$");
-
-    if(exp.match(message).hasMatch()){
-        auto match = exp.match(message).captured(0);
-        QString login = match.remove(match.indexOf(":"), match.indexOf(" "));
-        QString password = match.remove(match.indexOf(":"), match.length()-1);
+    if(isLogin(message)){
+        QRegularExpression exp("LOGIN:([a-zA-Z0-9_]+) PASSWORD:([a-zA-Z0-9_]+)");
+        QRegularExpressionMatch match = exp.match(message);
+        QString login = match.captured(1);
+        QString password = match.captured(2);
         qDebug() << login << " " << password;
+        return "ans";
+    }
+    else if(isRegistration(message)){
+        QRegularExpression exp("LOGIN:([a-zA-Z0-9_]+) PASSWORD:([a-zA-Z0-9_]+)");
+        QRegularExpressionMatch match = exp.match(message);
+        QString login = match.captured(1);
+        QString password = match.captured(2);
+        qDebug() << login << " " << password;
+        // добавить проверку на содержание в бд и если нет, то добавить
         return "ans";
     }
 
@@ -75,4 +83,20 @@ void Server::loginUser(const QString &login, const QString &password)
 void Server::registrationUser(const QString &login, const QString &password)
 {
 
+}
+
+bool Server::isLogin(const QString &message)
+{
+    //QRegularExpression exp("LOGIN:([a-zA-Z0-9_]+) PASSWORD:([a-zA-Z0-9_]+)");
+    return std::find(message.begin(), message.end(), "_LOGIN_") != message.end(); //exp.match(message).hasMatch();
+}
+
+bool Server::isRegistration(const QString &message)
+{
+    return std::find(message.begin(), message.end(), "_REGISTRATION_") != message.end();
+}
+
+bool Server::isQuizlet(const QString &message) //проверка для добавления пользователем quizlet-a
+{
+    return std::find(message.begin(), message.end(), "_QUIZLET_") != message.end();
 }
